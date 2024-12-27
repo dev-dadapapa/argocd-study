@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: argocd-helloworld
+  name: argocd-world
   labels:
-    name: argocd-helloworld
+    name: argocd-world
 spec:
   containers:
-  - name: argocd-helloworld
+  - name: argocd-world
     image: nginx
     resources:
       limits:
         memory: "64Mi"
-        cpu: "0.2"
+        cpu: "0.3"
     ports:
       - containerPort: 80

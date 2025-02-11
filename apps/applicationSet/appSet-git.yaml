@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: my-study
+spec:
+  generators: 
+    - list:
+        elements:
+          - namespace: devops
+    - git:
+        directories:
+        - path: 'example-helm/*'
+        repoURL: https://github.com/dev-dadapapa/argocd-study.git
+        revision: main
+  goTemplate: true
+  goTemplateOptions:
+  - missingkey=error
+  syncPolicy:
+    applicationsSync: sync
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      name: '{{ .path.basename | replace "study" "study-dev" }}'
+    spec:
+      destination:
+        #namespace: '{{ .path.basename }}'
+        namespace: '{{ namespace }}'
+        server: https://kubernetes.default.svc
+      project: 'my-study'
+      source:
+        helm:
+          releaseName: '{{.path.basename}}'
+          valueFiles:
+          - values.yaml
+        path: '{{.path.path}}'
+        repoURL: https://github.com/dev-dadapapa/argocd-study.git
+        targetRevision: HEAD

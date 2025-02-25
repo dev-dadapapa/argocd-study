@@ -4,9 +4,6 @@ metadata:
   name: my-study
 spec:
   generators: 
-    - list:
-        elements:
-          - namespace: devops
     - git:
         directories:
         - path: 'example-helm/*'
